@@ -1,0 +1,24 @@
+version: '3.1'
+
+services: 
+    main:
+        container_name: main
+        image: mongo
+        command: mongod --replSet set
+        ports: 
+            - 30001:27017
+        networks: 
+            - cluster
+    backup:
+        container_name: backup
+        image: mongo
+        command: mongod --replSet set
+        ports: 
+            - 30002:27017
+        networks: 
+            - cluster
+
+networks: 
+    cluster:
+
+# rs.initiate({_id:"set",members:[{_id:1,host:"main:27017",priority:100},{_id:2,host:"backup:27017",priority:1}]})
